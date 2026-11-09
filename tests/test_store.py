@@ -25,3 +25,15 @@ def test_done_keys_lets_a_crashed_run_resume(tmp_path):
     append(path, _s("a", 0))
     append(path, _s("b", 3))
     assert done_keys(path) == {("a", 0), ("b", 3)}
+
+def test_read_all_skips_blank_and_whitespace_lines(tmp_path):
+    path = tmp_path / "whitespace.jsonl"
+    append(path, _s("a", 0))
+    # Inject blank lines and whitespace characters
+    with path.open("a", encoding="utf-8") as f:
+        f.write("\n   \n\t\n")
+    append(path, _s("a", 1))
+
+    samples = read_all(path)
+    assert [s.sample_id for s in samples] == [0, 1]
+    assert done_keys(path) == {("a", 0), ("a", 1)}
