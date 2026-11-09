@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blindstitch"
+version = "0.1.0"
+description = "Measuring oracle-free verification signals for a small code-repair agent"
+requires-python = ">=3.10"
+dependencies = [
+  "patchwork @ git+https://github.com/Abdurrafay19/patchwork.git@v1.1.0",
+  "pydantic>=2",
+  "numpy",
+  "scipy",
+  "pandas",
+  "datasets",
+  "pytest",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.3", "mypy>=1.9", "scikit-learn>=1.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
